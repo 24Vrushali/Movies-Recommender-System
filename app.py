@@ -2,8 +2,8 @@ import pickle
 import streamlit as st
 import requests
 
-def fetch_poster(movie_id):
-    url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(movie_id)
+def fetch_poster(id):
+    url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(id)
     data = requests.get(url)
     data = data.json()
     poster_path = data['poster_path']
@@ -17,8 +17,8 @@ def recommend(movie):
     recommended_movie_posters = []
     for i in distances[1:6]:
         # fetch the movie poster
-        movie_id = movies.iloc[i[0]].movie_id
-        recommended_movie_posters.append(fetch_poster(movie_id))
+        id = movies.iloc[i[0]].id
+        recommended_movie_posters.append(fetch_poster(id))
         recommended_movie_names.append(movies.iloc[i[0]].title)
 
     return recommended_movie_names,recommended_movie_posters
@@ -53,4 +53,3 @@ if st.button('Show Recommendation'):
     with col5:
         st.text(recommended_movie_names[4])
         st.image(recommended_movie_posters[4])
-
